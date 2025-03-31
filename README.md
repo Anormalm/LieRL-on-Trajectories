@@ -6,7 +6,7 @@ Supported groups include:
 - **SE(2)**: Planar rigid body motion (2D position + rotation)
 - **SE(3)**: Spatial rigid body motion (3D position + rotation)
 - **SO(3)**: Pure rotations in 3D
-- **SL(2, \( $\mathbb{R}$ \))**: Area-preserving linear transformations (non-compact, non-orthogonal)
+- **SL(2, $\mathbb{R}$)**: Area-preserving linear transformations (non-compact, non-orthogonal)
 
 ---
 
