@@ -1,0 +1,43 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# Compiled files
+*.so
+
+# Model files
+*.pth
+*.pt
+*.ckpt
+models/
+
+# Logs and outputs
+*.log
+*.out
+*.tmp
+*.npy
+
+# Environment files
+.env
+.venv/
+venv/
+pip-wheel-metadata/
+
+# IDE/editor settings
+.vscode/
+.idea/
+.DS_Store
+
+# Plots or figures
+plots/
+*.png
+*.pdf
+*.svg
+
+# Dataset folders (if added later)
+data/
