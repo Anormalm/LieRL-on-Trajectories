@@ -6,11 +6,11 @@ Supported groups include:
 - **SE(2)**: Planar rigid body motion (2D position + rotation)
 - **SE(3)**: Spatial rigid body motion (3D position + rotation)
 - **SO(3)**: Pure rotations in 3D
-- **SL(2, \( \mathbb{R} \))**: Area-preserving linear transformations (non-compact, non-orthogonal)
+- **SL(2, \( $\mathbb{R}$ \))**: Area-preserving linear transformations (non-compact, non-orthogonal)
 
 ---
 
-## ∅ Motivation
+## Motivation
 Let \( G \) be a matrix Lie group (e.g., SE(3), SO(3)) and \( \mathfrak{g} = \text{Lie}(G) \) its Lie algebra. Trajectories in \( G \) can be approximated by exponential flows of constant generators:
 
 \[ g(t) = \exp(t\xi) \in G \quad \text{with} \ \xi \in \mathfrak{g} \]
