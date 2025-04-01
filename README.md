@@ -26,14 +26,23 @@ We model this as a sequence-to-vector regression problem:
 ##  Structure
 
 LieRL/
+
 ├── lie_groups.py             # Lie group implementations (SE(2), SE(3), SO(3), SL(2,R))
+
 ├── lieencoder.py              # Encoder network definition (MLP)
+
 ├── manifold_plotter.py         # Visualization and plotting functions
+
 ├── basis_discovery.py          # (Optional) basis and subspace analysis
+
 ├── train_lie_encoder.py        # SE(2) / SE(3) general training pipeline
+
 ├── train_so3_encoder.py        # Dedicated SO(3) rotation training
+
 ├── train_sl2r_encoder.py       # Dedicated SL(2,R) training with matrix stabilization
+
 ├── lie_encoder_deep.pth        # Saved model (e.g. SE(3) deep encoder)
+
 ├── lie_encoder_mixed.pth       # Saved model trained on mixed groups
 
 
