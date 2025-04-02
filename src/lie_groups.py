@@ -299,9 +299,7 @@ class SO3:
     def rotate(self, v: np.ndarray) -> np.ndarray:
         return self.R @ v
     
-    # In SO3 class
     def __init__(self, R: np.ndarray):
-        # Re-orthogonalize using SVD (numerical fix)
         U, _, Vt = np.linalg.svd(R)
         R_orthogonal = U @ Vt
         assert R_orthogonal.shape == (3, 3), "R must be 3x3"
@@ -319,11 +317,9 @@ class SL2R:
         mat = np.asarray(mat, dtype=np.float64)
         det = np.linalg.det(mat)
 
-        # Avoid invalid roots or divide by zero
         if not np.isfinite(det) or det <= 0:
             raise ValueError(f"Invalid SL(2,R) matrix with det={det}")
 
-        # Re-normalize to ensure det=1 (within tolerance)
         scale = det ** (1 / 2)
         mat = mat / scale
 
@@ -367,7 +363,7 @@ class SL2R:
 
     def log(self) -> np.ndarray:
         mat = logm(self.mat)
-        return SL2R.vee(mat.real)  # real part only in case of numerical drift
+        return SL2R.vee(mat.real)  
 
     def as_matrix(self) -> np.ndarray:
         return self.mat
