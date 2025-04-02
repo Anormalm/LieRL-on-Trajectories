@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from lie_groups import SE3,SL2R  # assumes you already implemented this
+from lie_groups import SE3,SL2R  
 from manifold_plotter import plot_error_trend, plot_lie_error, plot_se3_trajectory_comparison
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -16,10 +16,10 @@ BATCH_SIZE = 64
 LEARNING_RATE = 1e-3
 
 # ===== Trajectory Simulation =====
-from lie_groups import SE3  # make sure your SE3 class is used
+from lie_groups import SE3 
 
 def integrate_se3_trajectory(xi: np.ndarray, seq_len: int, dt: float):
-    pose = SE3.exp(np.zeros(6))  # Identity pose
+    pose = SE3.exp(np.zeros(6))  
     traj = []
 
     for _ in range(seq_len):
@@ -56,7 +56,7 @@ num_episodes = 1024
 x_data = []
 y_labels = []
 
-NOISE_STD = 0.05  # Tune this value for desired noise level
+NOISE_STD = 0.05 
 
 for _ in range(num_episodes):
     true_xi = np.random.uniform(-1.0, 1.0, size=6)
@@ -70,7 +70,7 @@ for _ in range(num_episodes):
         noisy_xi_seq.append(pose)
     xi_seq = trajectory_to_lie_algebra_se3(noisy_xi_seq)
     x_data.append(xi_seq)
-    y_labels.append(true_xi)  # still use true (clean) xi as the label
+    y_labels.append(true_xi) 
 
 
 x_tensor = torch.tensor(np.array(x_data), dtype=torch.float32)
@@ -130,7 +130,5 @@ print("True:", true_xi)
 print("Pred:", pred_xi)
 plot_lie_error(true_xi, pred_xi, title="SE(3) Lie Algebra Error")
 
-# Optional: save model
-# torch.save(model.state_dict(), "lie_encoder_se3_noise.pth")
 
 
