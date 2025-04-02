@@ -19,7 +19,7 @@ class LieEncoder(nn.Module):
             nn.ReLU(),
             nn.Dropout(dropout),
             nn.Linear(64, output_dim),
-            nn.Identity()  # Assume twist components are in range [-1, 1]
+            nn.Identity()  
         )
 
     def forward(self, x):
@@ -27,8 +27,8 @@ class LieEncoder(nn.Module):
         x: (B, T, 3) twist sequence
         Output: (B, 3) predicted generator
         """
-        _, h_n = self.rnn(x)  # h_n: (num_layers, B, hidden_dim)
-        h_last = h_n[-1]      # use output of final layer
+        _, h_n = self.rnn(x)  
+        h_last = h_n[-1]      
         h_norm = self.norm(h_last)
         return self.head(h_norm)
 
@@ -55,7 +55,7 @@ def simulate_se2_trajectory(xi, num_steps=100, dt=0.1):
         list of SE2 poses
     """
     poses = []
-    pose = SE2.exp(np.zeros(3))  # identity
+    pose = SE2.exp(np.zeros(3)) 
     for _ in range(num_steps):
         delta = SE2.exp(xi * dt)
         pose = pose @ delta
@@ -80,7 +80,7 @@ def trajectory_to_lie_algebra(poses):
 
 def simulate_se3_trajectory(true_xi: np.ndarray, seq_len: int, dt: float):
     traj = []
-    pose = SE3.exp(np.zeros(6))  # Identity pose
+    pose = SE3.exp(np.zeros(6))  
     delta = SE3.exp(true_xi * dt)
     for _ in range(seq_len):
         pose = pose @ delta
