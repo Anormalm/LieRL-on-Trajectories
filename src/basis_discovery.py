@@ -58,15 +58,12 @@ if __name__ == "__main__":
     poses = simulate_se2_trajectory(num_steps=200, dt=0.05)
     xi_seq = trajectory_to_lie_algebra(poses)
 
-    # Estimate fixed generator
     xi_mean, xi_std = estimate_fixed_generator(xi_seq)
     print("Estimated xi:", xi_mean)
     print("Std dev:", xi_std)
 
-    # Estimate algebra basis
     basis, S = estimate_lie_basis(xi_seq)
     print("Estimated basis vectors:")
     print(basis)
 
-    # Check closure
     test_closure(basis)
