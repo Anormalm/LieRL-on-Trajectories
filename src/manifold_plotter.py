@@ -88,7 +88,7 @@ def plot_error_trend(error_log, labels=["v_x", "v_y", "theta"]):
     plt.show()
     
 def integrate_trajectory(xi: np.ndarray, seq_len: int, dt: float):
-    pose = SE2.exp(np.zeros(3))  # Start at identity
+    pose = SE2.exp(np.zeros(3))  
     traj = []
 
     for _ in range(seq_len):
@@ -163,7 +163,7 @@ def plot_so3_orientation_evolution(poses, title="SO(3) Orientation Evolution"):
 
     xs, ys, zs = [], [], []
     for R in poses:
-        z_axis = R.R @ np.array([0, 0, 1])  # <-- FIXED: use .R to access rotation matrix
+        z_axis = R.R @ np.array([0, 0, 1])  
         xs.append(z_axis[0])
         ys.append(z_axis[1])
         zs.append(z_axis[2])
