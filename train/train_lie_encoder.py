@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import numpy as np
-from lie_groups import SE3,SL2R  
+from lie_groups import SE3
 from manifold_plotter import plot_error_trend, plot_lie_error, plot_se3_trajectory_comparison
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
