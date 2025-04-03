@@ -4,15 +4,13 @@ import torch.optim as optim
 import numpy as np
 import matplotlib.pyplot as plt
 from lie_groups import SL2R
-from manifold_plotter import plot_error_trend, plot_lie_error
-
+from manifold_plotter import plot_error_trend, plot_lie_error, plot_sl2r_trajectory_comparison
 
 SEQ_LEN = 100
 DT = 0.1
 EPOCHS = 1000
 BATCH_SIZE = 64
 LR = 1e-3
-
 
 def simulate_sl2r_trajectory(xi, seq_len, dt):
     g = SL2R.exp(np.zeros(3))
@@ -50,7 +48,7 @@ class SL2REncoder(nn.Module):
 
 x_data, y_data = [], []
 for _ in range(2048):
-    xi = np.random.uniform(-1, 1, size=3)
+    xi = np.random.uniform(-10, 10, size=3)
     norm = np.linalg.norm(xi)
     if norm > 1.5:
         xi = xi / norm * 1.5 
@@ -101,6 +99,10 @@ x_sample = x_norm[0:1].view(1, -1)
 pred = model(x_sample).detach().numpy().squeeze()
 true = y_tensor[0].numpy()
 
+true_traj = simulate_sl2r_trajectory(true, SEQ_LEN, DT)
+pred_traj = simulate_sl2r_trajectory(pred, SEQ_LEN, DT)
+
+plot_sl2r_trajectory_comparison(true_traj, pred_traj)
 print("True:", true)
 print("Pred:", pred)
 print("Absolute Errors:", np.abs(pred - true))
