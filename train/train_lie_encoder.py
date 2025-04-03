@@ -8,15 +8,11 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from scipy.linalg import expm, logm
 
-# ===== CONFIG =====
 SEQ_LEN = 120
 DT = 0.1
 EPOCHS = 1000
 BATCH_SIZE = 64
 LEARNING_RATE = 1e-3
-
-# ===== Trajectory Simulation =====
-from lie_groups import SE3 
 
 def integrate_se3_trajectory(xi: np.ndarray, seq_len: int, dt: float):
     pose = SE3.exp(np.zeros(6))  
@@ -30,12 +26,9 @@ def integrate_se3_trajectory(xi: np.ndarray, seq_len: int, dt: float):
     return traj
 
 
-
-# ===== Convert trajectory to Lie algebra sequence =====
 def trajectory_to_lie_algebra_se3(traj):
     return np.array([SE3.log(pose) for pose in traj])
 
-# ===== Simple Encoder Network =====
 class LieEncoderSE3(nn.Module):
     def __init__(self):
         super().__init__()
@@ -51,7 +44,6 @@ class LieEncoderSE3(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-# ===== Generate Dataset =====
 num_episodes = 1024
 x_data = []
 y_labels = []
@@ -76,12 +68,10 @@ for _ in range(num_episodes):
 x_tensor = torch.tensor(np.array(x_data), dtype=torch.float32)
 y_tensor = torch.tensor(np.array(y_labels), dtype=torch.float32)
 
-# ===== Normalize =====
 global_mean = x_tensor.mean(dim=(0, 1), keepdim=True)
 global_std = x_tensor.std(dim=(0, 1), keepdim=True) + 1e-6
 x_norm = (x_tensor - global_mean) / global_std
 
-# ===== Training =====
 model = LieEncoderSE3()
 optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE)
 loss_fn = nn.MSELoss()
@@ -112,10 +102,8 @@ for epoch in range(EPOCHS):
     error_log.append(avg_err)
     print(f"Epoch {epoch+1:3d}: Loss = {loss.item():.6f} | Error = {avg_err}")
 
-# ===== Plot Error Trend =====
 plot_error_trend(error_log, labels=["w_x", "w_y", "w_z", "v_x", "v_y", "v_z"])
 
-# ===== Sample Visualisation =====
 model.eval()
 x_sample = x_norm[0:1]
 pred_xi = model(x_sample).detach().cpu().numpy().squeeze()
