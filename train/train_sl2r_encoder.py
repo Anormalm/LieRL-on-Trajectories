@@ -6,14 +6,14 @@ import matplotlib.pyplot as plt
 from lie_groups import SL2R
 from manifold_plotter import plot_error_trend, plot_lie_error
 
-# === CONFIG ===
+
 SEQ_LEN = 100
 DT = 0.1
-EPOCHS = 500
+EPOCHS = 1000
 BATCH_SIZE = 64
 LR = 1e-3
 
-# === Trajectory Simulation ===
+
 def simulate_sl2r_trajectory(xi, seq_len, dt):
     g = SL2R.exp(np.zeros(3))
     traj = []
@@ -24,7 +24,6 @@ def simulate_sl2r_trajectory(xi, seq_len, dt):
         traj.append(g)
     return traj
 
-# === Convert trajectory to Lie algebra sequence ===
 def trajectory_to_twist_sequence(traj):
     xi_seq = []
     prev = traj[0]
@@ -34,7 +33,6 @@ def trajectory_to_twist_sequence(traj):
         prev = current
     return np.stack(xi_seq)
 
-# === Encoder Model ===
 class SL2REncoder(nn.Module):
     def __init__(self, input_dim):
         super().__init__()
@@ -50,7 +48,6 @@ class SL2REncoder(nn.Module):
     def forward(self, x):
         return self.net(x)
 
-# === Generate Dataset ===
 x_data, y_data = [], []
 for _ in range(2048):
     xi = np.random.uniform(-1, 1, size=3)
@@ -65,12 +62,10 @@ for _ in range(2048):
 x_tensor = torch.tensor(np.array(x_data), dtype=torch.float32)
 y_tensor = torch.tensor(np.array(y_data), dtype=torch.float32)
 
-# === Normalize ===
 mean = x_tensor.mean(dim=(0, 1), keepdim=True)
 std = x_tensor.std(dim=(0, 1), keepdim=True) + 1e-6
 x_norm = (x_tensor - mean) / std
 
-# === Training ===
 model = SL2REncoder(input_dim=3 * (SEQ_LEN - 1))
 opt = optim.Adam(model.parameters(), lr=LR)
 loss_fn = nn.MSELoss()
@@ -101,7 +96,6 @@ for epoch in range(EPOCHS):
     error_log.append(avg_err)
     print(f"Epoch {epoch+1:3d}: Loss = {loss.item():.6f} | Error = {avg_err}")
 
-# === Evaluation ===
 model.eval()
 x_sample = x_norm[0:1].view(1, -1)
 pred = model(x_sample).detach().numpy().squeeze()
@@ -111,6 +105,5 @@ print("True:", true)
 print("Pred:", pred)
 print("Absolute Errors:", np.abs(pred - true))
 
-# === Visualizations ===
 plot_error_trend(error_log, labels=["a", "b", "c"])
 plot_lie_error(true, pred, title="SL(2,R) Lie Algebra Error")
