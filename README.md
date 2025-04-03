@@ -12,41 +12,28 @@ Supported groups include:
 ##  Structure
 
 LieRL/
+├──src/
+      ├── lie_groups.py             # Lie group implementations (SE(2), SE(3), SO(3), SL(2,R))
 
-├── lie_groups.py             # Lie group implementations (SE(2), SE(3), SO(3), SL(2,R))
+      ├── lieencoder.py              # Encoder network definition (MLP)
 
-├── lieencoder.py              # Encoder network definition (MLP)
+      ├── manifold_plotter.py         # Visualization and plotting functions
 
-├── manifold_plotter.py         # Visualization and plotting functions
+      ├── basis_discovery.py          # (Optional) basis and subspace analysis
+├──train/
+      ├── train_lie_encoder.py        # SE(2) / SE(3) general training pipeline
 
-├── basis_discovery.py          # (Optional) basis and subspace analysis
+      ├── train_so3_encoder.py        # Dedicated SO(3) rotation training
 
-├── train_lie_encoder.py        # SE(2) / SE(3) general training pipeline
-
-├── train_so3_encoder.py        # Dedicated SO(3) rotation training
-
-├── train_sl2r_encoder.py       # Dedicated SL(2,R) training with matrix stabilization
-
-├── lie_encoder_deep.pth        # Saved model (e.g. SE(3) deep encoder)
-
-├── lie_encoder_mixed.pth       # Saved model trained on mixed groups
+      ├── train_sl2r_encoder.py       # Dedicated SL(2,R) training with matrix stabilization
 
 
 ---
 
-
-Run an example:
-```bash
-python train_lie_encoder.py  # for SE(2) / SE(3)
-python train_so3_encoder.py  # for SO(3)
-python train_sl2r_encoder.py # for SL(2,R)
-```
-
-You can adjust:
+You can adjust
 - `SEQ_LEN`, `DT` (integration timestep)
 - Group-specific class in `lie_groups.py`
 - Architecture in `lieencoder.py`
-
 ---
 
 ## Visualizations
@@ -68,8 +55,7 @@ This codebase supports research in:
 
 You can easily extend it to other Lie groups (e.g., Sim(2), Heisenberg) by:
 1. Defining group operations (`exp`, `log`, `@`, `.inv()`) in `lie_groups.py`
-2. Creating a `simulate_*_trajectory()` and `trajectory_to_twist_sequence()`
-
+2. Creating a `simulate_*_trajectory()` ...
 ---
 
 
